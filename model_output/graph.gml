@@ -375,7 +375,7 @@ graph
 				text	"
 	specification = 
 	namespace = null
-	name = 
+	name = White
 	documentation = 
 	orthogonal = false
 	simple = true
