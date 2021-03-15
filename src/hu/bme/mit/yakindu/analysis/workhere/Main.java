@@ -22,20 +22,55 @@ public class Main {
 		// Loading model
 		EObject root = manager.loadModel("model_input/example.sct");
 		
-		// Reading model
+		// Reading modelD
 		Statechart s = (Statechart) root;
 		TreeIterator<EObject> iterator = s.eAllContents();
+		
+		State stateFrom = null;
+		
 		while (iterator.hasNext()) {
 			EObject content = iterator.next();
 			if(content instanceof State) {
 				State state = (State) content;
-				System.out.println(state.getName());
+				if(stateFrom != null) {
+					System.out.println(stateFrom.getName() + " -> " + state.getName());
+				}
+				stateFrom = state;
 			}
 		}
+		
+		trap(s);
+		noname(s);
 		
 		// Transforming the model into a graph representation
 		String content = model2gml.transform(root);
 		// and saving it
 		manager.saveFile("model_output/graph.gml", content);
+	}
+	
+	public static void trap(Statechart s) {
+		TreeIterator<EObject> iterator = s.eAllContents();
+		while (iterator.hasNext()) {
+			EObject content = iterator.next();
+			if(content instanceof State) {
+				State state = (State) content;
+				if (state.getOutgoingTransitions().isEmpty() == true) {
+					System.out.println(state.getName() + " is trap state...");
+				}
+			}
+		}
+	}
+	
+	public static void noname(Statechart sc) {
+		TreeIterator<EObject> iterator = sc.eAllContents();
+		while (iterator.hasNext()) {
+			EObject content = iterator.next();
+			if(content instanceof State) {
+				State state = (State) content;
+				if (state.getName().isEmpty() == true) {
+					System.out.println("There is a no name state. It should be " + state.getIncomingTransitions().get(0).toString() + "_in_" + state.getOutgoingTransitions().get(0).toString()  + "_out");
+				}
+			}
+		}
 	}
 }
