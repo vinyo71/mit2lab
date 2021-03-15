@@ -68,7 +68,12 @@ public class Main {
 			if(content instanceof State) {
 				State state = (State) content;
 				if (state.getName().isEmpty() == true) {
-					System.out.println("There is a no name state. It should be " + state.getIncomingTransitions().get(0).toString() + "_in_" + state.getOutgoingTransitions().get(0).toString()  + "_out");
+					System.out.println(
+					"There is a no name state. It should be " 
+					+ "in_" 
+					+ state.getIncomingTransitions().get(0).toString() 
+					+ "_out_"
+					+ state.getOutgoingTransitions().get(0).toString());
 				}
 			}
 		}
